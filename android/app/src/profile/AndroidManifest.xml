@@ -1,0 +1,5 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Profile-only: required for Flutter's performance-profiling
+         connection. Not present in release builds. -->
+    <uses-permission android:name="android.permission.INTERNET" />
+</manifest>

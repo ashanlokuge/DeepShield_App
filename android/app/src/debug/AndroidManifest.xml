@@ -1,0 +1,6 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Debug-only: required for the Dart VM Service / hot reload
+         connection. Not present in release builds, so the shipped
+         app never holds an INTERNET permission. -->
+    <uses-permission android:name="android.permission.INTERNET" />
+</manifest>

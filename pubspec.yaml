@@ -1,0 +1,41 @@
+name: deepshield
+description: "On-device, offline deepfake detection using an INT8 TensorFlow Lite model. No servers, no accounts, no uploads."
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+  flutter: ">=3.19.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.6
+
+  # On-device TFLite inference (INT8 quantized models supported natively).
+  tflite_flutter: ^0.10.4
+
+  # Image decode/resize for preprocessing before inference.
+  image: ^4.1.7
+
+  # Gallery + camera image selection.
+  image_picker: ^1.1.2
+
+  # Android native share sheet (WhatsApp, Telegram, Email, etc.).
+  share_plus: ^12.0.0
+
+  # Runtime permission handling (camera / photos).
+  permission_handler: ^11.3.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
+
+  # The .tflite model ships as a bundled asset so inference works
+  # fully offline. See MODEL_INTEGRATION.md to swap in a real model.
+  assets:
+    - assets/models/
