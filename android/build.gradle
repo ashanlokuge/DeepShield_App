@@ -17,17 +17,20 @@ subprojects {
 // Kotlin JVM target at the toolchain default (17), which makes
 // compileDebugKotlin fail with "Inconsistent JVM-target compatibility".
 // Force every Android subproject onto Java 17 / Kotlin 17 so they match.
+// NOTE: no afterEvaluate here — evaluationDependsOn(":app") above means
+// :app is already evaluated by the time this block runs for it, and Gradle
+// rejects afterEvaluate on an evaluated project. Reacting to the plugins
+// being applied works regardless of evaluation order.
 subprojects { subproject ->
-    afterEvaluate {
-        subproject.tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
-            compilerOptions {
-                jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
-            }
+    subproject.tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+        compilerOptions {
+            jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
         }
+    }
 
-        def androidExtension = subproject.extensions.findByName("android")
-        if (androidExtension != null) {
-            androidExtension.compileOptions {
+    ["com.android.application", "com.android.library"].each { pluginId ->
+        subproject.pluginManager.withPlugin(pluginId) {
+            subproject.extensions.getByName("android").compileOptions {
                 sourceCompatibility JavaVersion.VERSION_17
                 targetCompatibility JavaVersion.VERSION_17
             }
