@@ -16,8 +16,12 @@ jobs:
           distribution: temurin
           java-version: '17'
 
+      # Pinned to the Flutter version the project was created with
+      # (see .metadata) so CI matches the developer's machine instead of
+      # picking up new toolchain minimums from each Flutter release.
       - uses: subosito/flutter-action@v2
         with:
+          flutter-version: '3.44.7'
           channel: stable
           cache: true
 
