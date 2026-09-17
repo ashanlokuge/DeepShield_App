@@ -187,13 +187,13 @@ class DeepfakeDetectionService {
   /// see MODEL_INTEGRATION.md.
   DetectionResult _interpretOutput(dynamic output, int inferenceTimeMs) {
     final List<dynamic> row = (output as List).first as List;
-    final dequantized = row
+    final List<double> dequantized = row
         .map((v) => _outputScale * ((v as num).toInt() - _outputZeroPoint))
         .toList();
 
     if (dequantized.length >= 2) {
-      final realScore = dequantized[0] as double;
-      final fakeScore = dequantized[1] as double;
+      final realScore = dequantized[0];
+      final fakeScore = dequantized[1];
       final isFake = fakeScore >= realScore;
 
       final maxScore = math.max(realScore, fakeScore);
@@ -209,7 +209,7 @@ class DeepfakeDetectionService {
       );
     }
 
-    final fakeProbability = (dequantized.first as double).clamp(0.0, 1.0);
+    final fakeProbability = dequantized.first.clamp(0.0, 1.0);
     final isFake = fakeProbability >= 0.5;
 
     return DetectionResult(
